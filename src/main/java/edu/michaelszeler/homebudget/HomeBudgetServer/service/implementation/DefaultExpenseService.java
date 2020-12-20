@@ -84,14 +84,14 @@ public class DefaultExpenseService implements ExpenseService {
     }
 
     @Override
-    public RegularExpenseDTO deleteExpense(RegularExpenseDTO regularExpenseDTO) {
-        if (regularExpenseDTO.getId() == null) {
-            throw new IllegalArgumentException("Strategy id not specified");
+    public RegularExpenseDTO deleteExpense(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Expense id not specified");
         }
 
-        Optional<RegularExpense> regularExpense = regularExpenseRepository.findById(regularExpenseDTO.getId());
+        Optional<RegularExpense> regularExpense = regularExpenseRepository.findById(id);
         if (regularExpense.isEmpty() || !regularExpense.get().getActive()) {
-            throw new IllegalArgumentException("Strategy not found");
+            throw new IllegalArgumentException("Expense not found");
         }
 
         regularExpense.get().setActive(false);

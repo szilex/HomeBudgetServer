@@ -3,6 +3,7 @@ package edu.michaelszeler.homebudget.HomeBudgetServer.controller;
 import edu.michaelszeler.homebudget.HomeBudgetServer.model.StrategyCategoryDTO;
 import edu.michaelszeler.homebudget.HomeBudgetServer.model.StrategyDTO;
 import edu.michaelszeler.homebudget.HomeBudgetServer.service.StrategyService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class StrategyController {
     }
 
     @DeleteMapping
-    public StrategyDTO deleteStrategy(@RequestBody StrategyDTO strategy) {
-        return strategyService.deleteStrategy(strategy);
+    public StrategyDTO deleteStrategy(@RequestParam(name = "id") @NotNull Integer id) {
+        return strategyService.deleteStrategy(id);
     }
 }

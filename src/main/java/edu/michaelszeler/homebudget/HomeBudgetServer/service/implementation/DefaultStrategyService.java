@@ -107,12 +107,12 @@ public class DefaultStrategyService implements StrategyService {
     }
 
     @Override
-    public StrategyDTO deleteStrategy(StrategyDTO strategyDTO) {
-        if (strategyDTO.getId() == null) {
+    public StrategyDTO deleteStrategy(Integer id) {
+        if (id == null) {
             throw new IllegalArgumentException("Strategy id not specified");
         }
 
-        Optional<Strategy> strategy = strategyRepository.findById(strategyDTO.getId());
+        Optional<Strategy> strategy = strategyRepository.findById(id);
         if (strategy.isEmpty() || !strategy.get().getActive()) {
             throw new IllegalArgumentException("Strategy not found");
         }

@@ -10,5 +10,5 @@ public interface ExpenseService {
     List<RegularExpenseDTO> getCurrentExpenses();
     List<ExpenseCategoryDTO> getCategories();
     RegularExpenseDTO postExpense(RegularExpenseDTO regularExpenseDTO);
-    RegularExpenseDTO deleteExpense(RegularExpenseDTO regularExpenseDTO);
+    RegularExpenseDTO deleteExpense(Integer id);
 }

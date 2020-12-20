@@ -10,5 +10,5 @@ public interface StrategyService {
     List<StrategyDTO> getArchiveStrategies();
     List<StrategyCategoryDTO> getCategories();
     StrategyDTO postStrategy(StrategyDTO strategyDTO);
-    StrategyDTO deleteStrategy(StrategyDTO strategyDTO);
+    StrategyDTO deleteStrategy(Integer id);
 }

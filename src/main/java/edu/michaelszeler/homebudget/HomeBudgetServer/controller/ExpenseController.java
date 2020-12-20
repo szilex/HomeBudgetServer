@@ -3,6 +3,7 @@ package edu.michaelszeler.homebudget.HomeBudgetServer.controller;
 import edu.michaelszeler.homebudget.HomeBudgetServer.model.ExpenseCategoryDTO;
 import edu.michaelszeler.homebudget.HomeBudgetServer.model.RegularExpenseDTO;
 import edu.michaelszeler.homebudget.HomeBudgetServer.service.ExpenseService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class ExpenseController {
     }
 
     @DeleteMapping
-    public RegularExpenseDTO deleteRegularExpense(@RequestBody RegularExpenseDTO regularExpenseDTO) {
-        return expenseService.deleteExpense(regularExpenseDTO);
+    public RegularExpenseDTO deleteRegularExpense(@RequestParam @NotNull Integer id) {
+        return expenseService.deleteExpense(id);
     }
 }
