@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,6 +46,7 @@ public class DefaultExpenseService implements ExpenseService {
                     int months = regularExpense.getMonths();
                     return !LocalDate.now().isBefore(start) && !LocalDate.now().isAfter(start.plusMonths(months));
                 })
+                .filter(RegularExpense::getActive)
                 .map(RegularExpenseDTO::new)
                 .collect(Collectors.toList());
 
@@ -76,8 +78,26 @@ public class DefaultExpenseService implements ExpenseService {
         regularExpense.setAmount(regularExpenseDTO.getAmount());
         regularExpense.setStartDate(regularExpenseDTO.getStartDate());
         regularExpense.setMonths(regularExpenseDTO.getMonths());
+        regularExpense.setActive(true);
 
         return new RegularExpenseDTO(regularExpenseRepository.save(regularExpense));
+    }
+
+    @Override
+    public RegularExpenseDTO deleteExpense(RegularExpenseDTO regularExpenseDTO) {
+        if (regularExpenseDTO.getId() == null) {
+            throw new IllegalArgumentException("Strategy id not specified");
+        }
+
+        Optional<RegularExpense> regularExpense = regularExpenseRepository.findById(regularExpenseDTO.getId());
+        if (regularExpense.isEmpty() || !regularExpense.get().getActive()) {
+            throw new IllegalArgumentException("Strategy not found");
+        }
+
+        regularExpense.get().setActive(false);
+        RegularExpense savedRegularExpense = regularExpenseRepository.save(regularExpense.get());
+
+        return new RegularExpenseDTO(savedRegularExpense);
     }
 
     private User getUser() {

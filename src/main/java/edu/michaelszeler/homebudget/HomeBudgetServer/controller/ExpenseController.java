@@ -33,4 +33,9 @@ public class ExpenseController {
     public RegularExpenseDTO postRegularExpense(@RequestBody RegularExpenseDTO regularExpenseDTO) {
         return expenseService.postExpense(regularExpenseDTO);
     }
+
+    @DeleteMapping
+    public RegularExpenseDTO deleteRegularExpense(@RequestBody RegularExpenseDTO regularExpenseDTO) {
+        return expenseService.deleteExpense(regularExpenseDTO);
+    }
 }

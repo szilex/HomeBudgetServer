@@ -27,9 +27,6 @@ public class RegularExpense implements Serializable {
     @JoinColumn(name = "category_id")
     private ExpenseCategory category;
 
-    /*@OneToMany(mappedBy = "regularExpense", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<RegularExpenseInstallment> regularExpenseInstallments;*/
-
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -42,18 +39,21 @@ public class RegularExpense implements Serializable {
     @Column(name = "months", nullable = false)
     private Integer months;
 
+    @Column(name = "active", nullable = false)
+    private Boolean active;
+
     public RegularExpense() {
     }
 
-    public RegularExpense(Integer id, User user, ExpenseCategory category, /*List<RegularExpenseInstallment> regularExpenseInstallments.*/ String name, BigDecimal amount, LocalDate startDate, Integer months) {
+    public RegularExpense(Integer id, User user, ExpenseCategory category, String name, BigDecimal amount, LocalDate startDate, Integer months, Boolean active) {
         this.id = id;
         this.user = user;
         this.category = category;
-        //this.regularExpenseInstallments = regularExpenseInstallments;
         this.name = name;
         this.amount = amount;
         this.startDate = startDate;
         this.months = months;
+        this.active = active;
     }
 
     public Integer getId() {
@@ -79,14 +79,6 @@ public class RegularExpense implements Serializable {
     public void setCategory(ExpenseCategory category) {
         this.category = category;
     }
-
-    /*public List<RegularExpenseInstallment> getRegularExpenseInstallments() {
-        return regularExpenseInstallments;
-    }
-
-    public void setRegularExpenseInstallments(List<RegularExpenseInstallment> regularExpenseInstallments) {
-        this.regularExpenseInstallments = regularExpenseInstallments;
-    }*/
 
     public String getName() {
         return name;
@@ -118,5 +110,13 @@ public class RegularExpense implements Serializable {
 
     public void setMonths(Integer months) {
         this.months = months;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

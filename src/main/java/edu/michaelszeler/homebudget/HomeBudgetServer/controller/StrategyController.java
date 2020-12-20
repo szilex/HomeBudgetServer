@@ -38,4 +38,9 @@ public class StrategyController {
     public StrategyDTO postStrategy(@RequestBody StrategyDTO strategy) {
         return strategyService.postStrategy(strategy);
     }
+
+    @DeleteMapping
+    public StrategyDTO deleteStrategy(@RequestBody StrategyDTO strategy) {
+        return strategyService.deleteStrategy(strategy);
+    }
 }

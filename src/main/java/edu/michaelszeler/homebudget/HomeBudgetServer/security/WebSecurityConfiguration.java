@@ -32,7 +32,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.GET,"/user").fullyAuthenticated()
-                .antMatchers(HttpMethod.POST, "/user").access("!isFullyAuthenticated()")
+                .antMatchers(HttpMethod.POST, "/user/register").access("!isFullyAuthenticated()")
                 .antMatchers(HttpMethod.PUT, "/user/changePassword").access("!isFullyAuthenticated()")
                 .antMatchers(HttpMethod.GET,"/budget", "/budget/archive").fullyAuthenticated()
                 .antMatchers(HttpMethod.POST,"/budget").fullyAuthenticated()

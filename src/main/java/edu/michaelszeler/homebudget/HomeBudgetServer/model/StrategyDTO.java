@@ -24,20 +24,12 @@ public class StrategyDTO {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate startDate;
     private Integer months;
+    private Boolean active;
 
     public StrategyDTO() {
     }
 
-    public StrategyDTO(String name, String description, String category, BigDecimal goal, LocalDate startDate, Integer months) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.goal = goal;
-        this.startDate = startDate;
-        this.months = months;
-    }
-
-    public StrategyDTO(Integer id, String name, String description, String category, BigDecimal goal, LocalDate startDate, Integer months) {
+    public StrategyDTO(Integer id, String name, String description, String category, BigDecimal goal, LocalDate startDate, Integer months, Boolean active) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -45,6 +37,7 @@ public class StrategyDTO {
         this.goal = goal;
         this.startDate = startDate;
         this.months = months;
+        this.active = active;
     }
 
     public StrategyDTO(Strategy strategy) {
@@ -55,6 +48,7 @@ public class StrategyDTO {
         this.goal = strategy.getGoal();
         this.startDate = strategy.getStartDate();
         this.months = strategy.getMonths();
+        this.active = strategy.getActive();
     }
 
     public Integer getId() {
@@ -111,6 +105,14 @@ public class StrategyDTO {
 
     public void setMonths(Integer months) {
         this.months = months;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public boolean allSetForPost() {

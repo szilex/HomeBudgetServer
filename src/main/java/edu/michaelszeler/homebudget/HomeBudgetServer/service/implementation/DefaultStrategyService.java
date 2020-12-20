@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +47,7 @@ public class DefaultStrategyService implements StrategyService {
                     int months = strategy.getMonths();
                     return !LocalDate.now().isBefore(start) && !LocalDate.now().isAfter(start.plusMonths(months));
                 })
+                .filter(Strategy::getActive)
                 .map(StrategyDTO::new)
                 .collect(Collectors.toList());
 
@@ -83,8 +85,8 @@ public class DefaultStrategyService implements StrategyService {
     }
 
     @Override
-    public StrategyDTO postStrategy(StrategyDTO strategy) {
-        if (!strategy.allSetForPost()) {
+    public StrategyDTO postStrategy(StrategyDTO strategyDTO) {
+        if (!strategyDTO.allSetForPost()) {
             throw new IllegalArgumentException("insufficient argument list");
         }
 
@@ -93,14 +95,32 @@ public class DefaultStrategyService implements StrategyService {
         Strategy strategyToPost = new Strategy();
         strategyToPost.setId(0);
         strategyToPost.setUser(user);
-        strategyToPost.setCategory(getCategory(strategy.getCategory()));
-        strategyToPost.setName(strategy.getName());
-        strategyToPost.setDescription(strategy.getDescription());
-        strategyToPost.setGoal(strategy.getGoal());
-        strategyToPost.setStartDate(strategy.getStartDate());
-        strategyToPost.setMonths(strategy.getMonths());
+        strategyToPost.setCategory(getCategory(strategyDTO.getCategory()));
+        strategyToPost.setName(strategyDTO.getName());
+        strategyToPost.setDescription(strategyDTO.getDescription());
+        strategyToPost.setGoal(strategyDTO.getGoal());
+        strategyToPost.setStartDate(strategyDTO.getStartDate());
+        strategyToPost.setMonths(strategyDTO.getMonths());
+        strategyToPost.setActive(true);
 
         return new StrategyDTO(strategyRepository.save(strategyToPost));
+    }
+
+    @Override
+    public StrategyDTO deleteStrategy(StrategyDTO strategyDTO) {
+        if (strategyDTO.getId() == null) {
+            throw new IllegalArgumentException("Strategy id not specified");
+        }
+
+        Optional<Strategy> strategy = strategyRepository.findById(strategyDTO.getId());
+        if (strategy.isEmpty() || !strategy.get().getActive()) {
+            throw new IllegalArgumentException("Strategy not found");
+        }
+
+        strategy.get().setActive(false);
+        Strategy savedStrategy = strategyRepository.save(strategy.get());
+
+        return new StrategyDTO(savedStrategy);
     }
 
     private User getUser() {

@@ -8,7 +8,7 @@ import java.util.List;
 public interface ExpenseService {
 
     List<RegularExpenseDTO> getCurrentExpenses();
-
     List<ExpenseCategoryDTO> getCategories();
-    RegularExpenseDTO postExpense(RegularExpenseDTO expense);
+    RegularExpenseDTO postExpense(RegularExpenseDTO regularExpenseDTO);
+    RegularExpenseDTO deleteExpense(RegularExpenseDTO regularExpenseDTO);
 }

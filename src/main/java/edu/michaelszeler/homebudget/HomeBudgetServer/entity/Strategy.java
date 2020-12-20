@@ -27,9 +27,6 @@ public class Strategy implements Serializable {
     @JoinColumn(name = "strategy_category_id")
     private StrategyCategory category;
 
-    /*@OneToMany(mappedBy = "strategy", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<StrategyInstallment> strategyInstallments;*/
-
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -45,19 +42,22 @@ public class Strategy implements Serializable {
     @Column(name = "months", nullable = false)
     private Integer months;
 
+    @Column(name = "active", nullable = false)
+    private Boolean active;
+
     public Strategy() {
     }
 
-    public Strategy(Integer id, User user, StrategyCategory category, /*List<StrategyInstallment> strategyInstallments,*/ String name, String description, BigDecimal goal, LocalDate startDate, Integer months) {
+    public Strategy(Integer id, User user, StrategyCategory category, String name, String description, BigDecimal goal, LocalDate startDate, Integer months, Boolean active) {
         this.id = id;
         this.user = user;
         this.category = category;
-        //this.strategyInstallments = strategyInstallments;
         this.name = name;
         this.description = description;
         this.goal = goal;
         this.startDate = startDate;
         this.months = months;
+        this.active = active;
     }
 
     public Integer getId() {
@@ -122,5 +122,13 @@ public class Strategy implements Serializable {
 
     public void setMonths(Integer months) {
         this.months = months;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

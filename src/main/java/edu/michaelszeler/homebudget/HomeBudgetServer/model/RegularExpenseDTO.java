@@ -23,16 +23,9 @@ public class RegularExpenseDTO {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate startDate;
     private Integer months;
+    private Boolean active;
 
     public RegularExpenseDTO() {
-    }
-
-    public RegularExpenseDTO(String category, String name, BigDecimal amount, LocalDate date, Integer months) {
-        this.category = category;
-        this.name = name;
-        this.amount = amount;
-        this.startDate = date;
-        this.months = months;
     }
 
     public RegularExpenseDTO(Integer id, String name, String category, BigDecimal amount, LocalDate startDate, Integer months) {
@@ -51,6 +44,7 @@ public class RegularExpenseDTO {
         this.amount = expense.getAmount();
         this.startDate = expense.getStartDate();
         this.months = expense.getMonths();
+        this.active = expense.getActive();
    }
 
     public Integer getId() {
@@ -99,6 +93,14 @@ public class RegularExpenseDTO {
 
     public void setMonths(Integer months) {
         this.months = months;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public boolean allSetForPost() {
