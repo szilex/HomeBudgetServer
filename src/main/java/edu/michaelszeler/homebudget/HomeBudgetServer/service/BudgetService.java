@@ -8,4 +8,5 @@ public interface BudgetService {
     BudgetDTO getCurrentBudget();
     List<BudgetDTO> getArchiveBudgets();
     BudgetDTO postBudget(BudgetDTO budget);
+    BudgetDTO deleteBudget(Integer id);
 }

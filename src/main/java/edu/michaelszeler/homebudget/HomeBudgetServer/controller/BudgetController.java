@@ -1,7 +1,9 @@
 package edu.michaelszeler.homebudget.HomeBudgetServer.controller;
 
 import edu.michaelszeler.homebudget.HomeBudgetServer.model.BudgetDTO;
+import edu.michaelszeler.homebudget.HomeBudgetServer.model.StrategyDTO;
 import edu.michaelszeler.homebudget.HomeBudgetServer.service.BudgetService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,5 +33,10 @@ public class BudgetController {
     @PostMapping
     public BudgetDTO postBudget(@RequestBody BudgetDTO budget) {
         return budgetService.postBudget(budget);
+    }
+
+    @DeleteMapping
+    public BudgetDTO deleteBudget(@RequestParam(name = "id") @NotNull Integer id) {
+        return budgetService.deleteBudget(id);
     }
 }

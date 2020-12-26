@@ -96,6 +96,18 @@ public class DefaultBudgetService implements BudgetService {
         budgetToPost.setDate(budget.getDate());
         budgetToPost.setIncome(budget.getIncome());
 
+        long counter = budgetRepository.findAllByUser(user).stream()
+                .filter(budgetEntry -> {
+                    LocalDate budgetDate = budgetEntry.getDate();
+                    LocalDate currentDate = LocalDate.now();
+                    return budgetDate.getYear() == currentDate.getYear() && budgetDate.getMonth() == currentDate.getMonth();
+                })
+                .count();
+
+        if (counter > 0) {
+            throw new IllegalArgumentException("budget for this month is already defined");
+        }
+
         Budget budgetToUpdate = budgetRepository.save(budgetToPost);
 
         List<CustomExpense> customExpenses = getCustomExpenses(budget, budgetToUpdate);
@@ -112,6 +124,26 @@ public class DefaultBudgetService implements BudgetService {
         budgetRepository.save(budgetToUpdate);
 
         return new BudgetDTO(budgetToUpdate);
+    }
+
+    @Override
+    public BudgetDTO deleteBudget(Integer id) {
+        if (id == null) {
+            throw new IllegalArgumentException("budget id not specified");
+        }
+
+        Optional<Budget> optionalBudget = budgetRepository.findById(id);
+        if (optionalBudget.isEmpty()) {
+            throw new IllegalArgumentException("budget not found");
+        }
+
+        Budget budget = optionalBudget.get();
+        strategyInstallmentRepository.deleteAllByBudget(budget);
+        regularExpenseInstallmentRepository.deleteAllByBudget(budget);
+        customExpenseRepository.deleteAllByBudget(budget);
+        budgetRepository.delete(budget);
+
+        return null;
     }
 
     @NotNull
