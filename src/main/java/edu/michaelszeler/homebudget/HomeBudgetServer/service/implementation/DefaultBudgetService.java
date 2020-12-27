@@ -97,11 +97,7 @@ public class DefaultBudgetService implements BudgetService {
         budgetToPost.setIncome(budget.getIncome());
 
         long counter = budgetRepository.findAllByUser(user).stream()
-                .filter(budgetEntry -> {
-                    LocalDate budgetDate = budgetEntry.getDate();
-                    LocalDate currentDate = LocalDate.now();
-                    return budgetDate.getYear() == currentDate.getYear() && budgetDate.getMonth() == currentDate.getMonth();
-                })
+                .filter(budgetEntry -> budgetEntry.getDate().getYear() == budgetToPost.getDate().getYear() && budgetEntry.getDate().getMonth() == budgetToPost.getDate().getMonth())
                 .count();
 
         if (counter > 0) {
