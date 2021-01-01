@@ -45,7 +45,8 @@ public class DefaultStrategyService implements StrategyService {
                 .filter(strategy -> {
                     LocalDate start = strategy.getStartDate();
                     int months = strategy.getMonths();
-                    return !LocalDate.now().isBefore(start) && !LocalDate.now().isAfter(start.plusMonths(months));
+                    //return !LocalDate.now().isBefore(start) && !LocalDate.now().isAfter(start.plusMonths(months));
+                    return !LocalDate.now().isAfter(start.plusMonths(months));
                 })
                 .filter(Strategy::getActive)
                 .map(StrategyDTO::new)

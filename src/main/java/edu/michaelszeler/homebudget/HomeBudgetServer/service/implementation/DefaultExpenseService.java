@@ -44,7 +44,8 @@ public class DefaultExpenseService implements ExpenseService {
                 .filter(regularExpense -> {
                     LocalDate start = regularExpense.getStartDate();
                     int months = regularExpense.getMonths();
-                    return !LocalDate.now().isBefore(start) && !LocalDate.now().isAfter(start.plusMonths(months));
+                    //return !LocalDate.now().isBefore(start) && !LocalDate.now().isAfter(start.plusMonths(months));
+                    return !LocalDate.now().isAfter(start.plusMonths(months));
                 })
                 .filter(RegularExpense::getActive)
                 .map(RegularExpenseDTO::new)

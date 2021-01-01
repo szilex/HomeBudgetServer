@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -150,6 +151,10 @@ public class DefaultBudgetService implements BudgetService {
                 .findFirst();
         ExpenseCategory defaultCategory = optionalDefaultCategory.orElse(null);
 
+        if (budget.getCustomExpenses() == null) {
+            return Collections.emptyList();
+        }
+
         return budget.getCustomExpenses().stream()
                 .map(customExpenseDTO -> {
                     List<ExpenseCategory> categories = expenseCategories.stream()
@@ -163,6 +168,10 @@ public class DefaultBudgetService implements BudgetService {
 
     @NotNull
     private List<RegularExpenseInstallment> getRegularExpenseInstallments(BudgetDTO budget, Budget budgetToPost) {
+        if (budget.getRegularExpenses() == null) {
+            return Collections.emptyList();
+        }
+
         List<Integer> regularExpenseIds = budget.getRegularExpenses().stream()
                 .map(RegularExpenseDTO::getId)
                 .collect(Collectors.toList());
@@ -174,6 +183,10 @@ public class DefaultBudgetService implements BudgetService {
 
     @NotNull
     private List<StrategyInstallment> getStrategyInstallments(BudgetDTO budget, Budget budgetToPost) {
+        if (budget.getRegularExpenses() == null) {
+            return Collections.emptyList();
+        }
+
         List<Integer> strategyIds = budget.getStrategies().stream()
                 .map(StrategyDTO::getId)
                 .collect(Collectors.toList());
