@@ -70,6 +70,7 @@ public class DefaultStrategyService implements StrategyService {
                     int months = strategy.getMonths();
                     return LocalDate.now().isAfter(start.plusMonths(months));
                 })
+                .filter(Strategy::getActive)
                 .map(StrategyDTO::new)
                 .collect(Collectors.toList());
 

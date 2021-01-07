@@ -140,7 +140,7 @@ public class DefaultBudgetService implements BudgetService {
         customExpenseRepository.deleteAllByBudget(budget);
         budgetRepository.delete(budget);
 
-        return null;
+        return new BudgetDTO(budget);
     }
 
     @NotNull
